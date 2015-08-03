@@ -5,16 +5,6 @@ var md5 = require('MD5');
 var rest = require("./REST.js");
 var app  = express();
 
-var url = process.env.DATABASE_URL.match(/(.*)\:\/\/(.*?)\:(.*)@(.*)\:(.*)\/(.*)/);
-var DB_name	= (url[6]||null);
-var user	= (url[2]||null);
-var pwd		= (url[3]||null);
-var protocol	= (url[1]||null);
-var dialect	= (url[1]||null);
-var port	= (url[5]||null);
-var host	= (url[4]||null);
-var storage	= process.env.DATABASE_STORAGE;
-
 function REST(){
     var self = this;
     self.connectPg();
@@ -22,7 +12,7 @@ function REST(){
 
 REST.prototype.connectPg = function() {
     var self = this;
-    var pool      =    mysql.createPool({
+    var pool      =    pg.createPool({
         connectionLimit : 100,
         host     : host,
         user     : user,
