@@ -1,23 +1,33 @@
 var express = require("express");
-var mysql   = require("mysql");
+var pg   = require("pg");
 var bodyParser  = require("body-parser");
 var md5 = require('MD5');
 var rest = require("./REST.js");
 var app  = express();
 
+var url = process.env.DATABASE_URL.match(/(.*)\:\/\/(.*?)\:(.*)@(.*)\:(.*)\/(.*)/);
+var DB_name	= (url[6]||null);
+var user	= (url[2]||null);
+var pwd		= (url[3]||null);
+var protocol	= (url[1]||null);
+var dialect	= (url[1]||null);
+var port	= (url[5]||null);
+var host	= (url[4]||null);
+var storage	= process.env.DATABASE_STORAGE;
+
 function REST(){
     var self = this;
-    self.connectMysql();
+    self.connectPg();
 };
 
-REST.prototype.connectMysql = function() {
+REST.prototype.connectPg = function() {
     var self = this;
     var pool      =    mysql.createPool({
         connectionLimit : 100,
-        host     : 'localhost',
-        user     : 'bookrest',
-        password : 'restbook',
-        database : 'librostexto',
+        host     : host,
+        user     : user,
+        password : pwd,
+        database : DB_name,
         debug    :  true
     });
     pool.getConnection(function(err,connection){
