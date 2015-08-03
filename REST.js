@@ -1,5 +1,5 @@
 var express = require("express");
-var mysql   = require("mysql");
+var pg   = require("pg");
 var bodyParser  = require("body-parser");
 var md5 = require('MD5');
 function REST_ROUTER(router,connection,md5) {
