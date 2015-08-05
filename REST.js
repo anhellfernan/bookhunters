@@ -13,7 +13,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5) {
     })
 
     router.post("/newusu",function(req,res){
-        pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        pg.connect(process.env.HEROKU_POSTGRESQL_MAROON_URL, function(err, client, done) {
             client.one("INSERT INTO usuarios (usuario,password,nombre)
                 VALUES ('"+req.body.usuario+"','"+md5(req.body.password)+"','"+req.body.nombre+"')",
                 function(err, result) {
